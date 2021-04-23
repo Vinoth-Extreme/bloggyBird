@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %} Create profile {% endblock %}
+
+{% block body %}
+
+    {% if user.is_authenticated %}
+        {% if user.profile.id %}
+            <h4 class="small-caps font-weight-bolder errors">
+                <i class="fa fa-times text-danger"></i>
+                You already have a profile. you aren't allowed here!!!
+                <i class="fa fa-times text-danger"></i>
+            </h4>
+        {% else %}
+            <h1 class="text-center small-caps">Build your profile</h1>
+            <h6 class="text-center">
+                Hey {{ user.first_name | title }} {{ user.last_name }}, Please, complete your profile to let others know you...
+            </h6>
+            <br><br>
+
+            <div class="container bg-dark text-light p-4" style="border-radius: 40px;">
+                <div class="row justify-content-center">
+                    <div class="col-5">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button class="btn btn-primary">build it up...</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+            <h2 class="small-caps font-weight-bolder errors">
+                <i class="fa fa-times text-danger"></i>
+                Unauthorized users aren't allowed here!!!
+                <i class="fa fa-times text-danger"></i>
+            </h2>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %} Add blog post {% endblock %}
+
+{% block body %}
+
+
+{% if user.is_authenticated %}
+    {% if post.author.id == user.id %}
+        <h1 class="text-center small-caps">Update <span class="underline">{{ post.title }}</span></h1> <br><br>
+
+            <div class="container bg-dark text-light p-4" style="border-radius: 40px;">
+                <div class="row justify-content-center">
+                    <div class="col-5">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.media }}
+                            {{ form.as_p }}
+                            <button class="btn btn-primary">update my work!</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    {% else %}
+        <h4 class="small-caps font-weight-bolder errors">
+            You aren't allowed to edit other's post... Please not to try...
+        </h4>
+    {% endif %}
+
+{% else %}
+    <h4 class="small-caps font-weight-bolder errors">
+        You aren't allowed here... Please try some other time...
+    </h4>
+{% endif %}
+
+
+<script>
+    var uid = '{{ user.id }}';
+    document.getElementById('author').value = uid;
+</script>
+
+{% endblock %}

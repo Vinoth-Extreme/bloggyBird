@@ -1,0 +1,66 @@
+********************************************************************
+********************************************************************
+<!-- for index page -->
+
+<!-- recent posts -->
+<div class="container-fluid mt-4">
+      <h3 class="underline small-caps text-center text-dark">Latest</h3>
+
+    <div class="row justify-content-around">
+      {% if latest %}
+
+        {% for l in latest %}
+
+            <div class="col-md-5">
+
+            <div class="card mb-3" style="max-width: fit-content;background-color: rgba(0, 0, 0, 0.13);" >
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <img src="{{ l.header_image.url }}" class="card-img" alt="{{ l.title }}" height="100%">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h7 class="card-title"><a href="{% url 'article-detail' l.pk %}#post-detail">{{ l.title | title }}</a></h7><br>
+                    <small class="card-text text-muted">By, <a href="{% url 'view-profile' l.author.profile.id %}">{{ l.author.username }}</a></small><br>
+                    <small>Category: <a href="{% url 'category-view' l.category %}" class="small-caps">{{ l.category }}</a></small>
+                    <p class="card-text">{{ l.snippet |slice:":37" }}...</p>
+                    <p class="card-text row justify-content-around">
+                      <small class="text-muted">
+                        <i class="mx-1 fa fa-thumbs-up"> {{ l.likes.count }}</i>
+                        <i class="mx-1 fa fa-heart"> {{ l.loves.count }}</i>
+                        <a href="{% url 'article-detail' l.pk %}#comments" class="text-muted">
+                          <i class="mx-1 fa fa-commenting-o"> {{ l.comments.count }}</i>
+                        </a>
+                      </small>
+                      <small class="text-muted text-right">
+                        {{ l.publication_date | naturaltime }}
+                      </small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        {% endfor %}
+
+      {% else %}
+        <h1 class="small-caps text-center font-weight-bolder">No latest posts yet!!!</h1>
+      {% endif %}
+
+    </div> <!-- row ends -->
+
+  </div>
+
+
+*******************************************************************************
+*******************************************************************************
+<!-- for views in blog directory -->
+
+    * Add the following to the get_context_data() of the HOMEVIEW class.
+
+
+            today = datetime.datetime.today()
+        WeekAgo = (today - datetime.timedelta(days=7)).date()
+        latest = Post.objects.filter(publication_date__range=[WeekAgo, today])
+        context["latest"] = latest

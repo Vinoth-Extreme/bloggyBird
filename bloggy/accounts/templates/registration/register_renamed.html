@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %} Register {% endblock %}
+
+{% block body %}
+
+{% if not user.is_authenticated %}
+    <h1 class="text-center small-caps">Register</h1> <br><br>
+
+            <div class="container bg-dark text-light p-4" style="border-radius: 40px;">
+                <div class="row justify-content-center">
+                    <div class="col-5">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button class="btn btn-primary">Register</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+{% else %}
+    <h4 class="small-caps font-weight-bolder errors">
+        You aren't allowed here... Please try some other time...
+    </h4>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Register {% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid d-flex align-items-center justify-content-center"
+         style="
+            height:20vh;
+            background-image: url({% static 'img/back001.jpg' %});
+            background-size: cover;
+            background-position: fixed;
+            filter: blur(8px);
+         ">
+    </div>
+        <h1 class="small-caps text-light underline"
+            style="
+                z-index:99;
+                position: absolute;
+                top: 20%;
+                left: 50%;
+                transform: translate(-50%, -80%);
+        ">
+            Register
+        </h1>
+     <br><br>
+
+    <div class="container"
+         style="
+            height: 100vh;
+            background-image: url({% static 'img/whiteback003.jpg' %});
+            background-size: cover;
+            background-position: fixed;
+            filter: blur(6px);
+        ">
+    </div>
+    <div class="container errors" style="margin-top: 250px;">
+      <div class="row justify-content-center">
+
+        <div class="col-8">
+            <form method="post">
+        {% csrf_token %}
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="First_name">First name</label>
+          <input type="text" class="form-control" id="First_name" placeholder="First name" name="first_name">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="Last_name">Last name</label>
+          <input type="text" class="form-control" id="Last_name" placeholder="Last name" name="last_name">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="username">User name</label>
+        <input type="text" class="form-control" id="username" placeholder="Username..." name="username">
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" placeholder="Email..." name="email">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="newPass">New password</label>
+          <input type="password" class="form-control" id="newPass" placeholder="New password..." name="password1">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="conPass">Confirm Password</label>
+          <input type="password" class="form-control" id="conPass" placeholder="Confirm Password..." name="password2">
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Sign in</button>
+    </form>
+        </div>
+
+
+      </div>
+    </div>
+
+{% endblock %}

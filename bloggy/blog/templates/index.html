@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %} Bloggy bird! {% endblock %}
+
+{% block body %}
+
+    {% if user.is_authenticated %}
+        {% if not user.profile.id %}
+          <div class="container build-profile p-4 text-center">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              Hello, <strong>{{ user.username.title }}!!!</strong> You must build your profile to add posts, etc.
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+        </div>
+        {% endif %}
+    {% endif %}
+
+
+
+    <p class="display-4 text-light small-caps d-none d-lg-block" id="Main-heading">
+      <img src="{% static 'img/phoenix_icon_2.png' %}" width="70" class="bg-warning rounded-circle">
+      Bloggy bird...
+    </p>
+<!--    Carousel starts     -->
+    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" style="height: 100%;">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="3"></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="4"></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="5"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{% static 'img/chemistry.jpg' %}" class="d-block w-100" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <h1>Science</h1>
+            <p>Biology, chemistry, physics etc.</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'img/eco-chart.jpg' %}" class="d-block w-100" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <h1>E-commerce</h1>
+            <p>Accounts, Economics, Banking, etc.</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'img/automobile.jpg' %}" class="d-block w-100" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <h1>Automobile</h1>
+            <p>cars, automation, futuristic inventions,etc.</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'img/deforestation.jpg' %}" class="d-block w-100" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <h1>Natural environment</h1>
+            <p>Researches on various geologic, biologic and pathogenic concepts, etc.</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'img/nature.jpg' %}" class="d-block w-100" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <h1>Nature forever unleashes</h1>
+            <p>Some interesting facts on nature's hidden faces, etc.</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'img/caro_3.jpg' %}" class="d-block w-100" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <h1>Entertainment</h1>
+            <p>Games, movies, music, multimedia, etc.</p>
+          </div>
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+
+  <div class="container-fluid mt-4">
+      <h3 class="underline small-caps text-center text-dark">Posts</h3>
+
+    <div class="row justify-content-around">
+      {% if object_list %}
+        {% for i in object_list %}
+        <div class="col-md-5">
+
+            <div class="card mb-3" style="max-width: fit-content;background-color: rgba(0, 0, 0, 0.13);" >
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <img src="{{ i.header_image.url }}" class="card-img" alt="{{ i.title }}" height="100%">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h7 class="card-title"><a href="{% url 'article-detail' i.pk %}#post-detail">{{ i.title | title }}</a></h7><br>
+                    <small class="card-text text-muted">By, <a href="{% url 'view-profile' i.author.profile.id %}">{{ i.author.username }}</a></small><br>
+                    <small>Category: <a href="{% url 'category-view' i.category %}" class="small-caps">{{ i.category }}</a></small>
+                    <p class="card-text">{{ i.snippet |slice:":37" }}...</p>
+                    <p class="card-text row justify-content-around">
+                      <small class="text-muted">
+                        {% if i.likes.user.id %}
+                        <i class="mx-1 fa fa-thumbs-up"> {{ i.likes.count }}</i>
+                        {% else %}
+                        <i class="mx-1 fa fa-thumbs-o-up"> {{ i.likes.count }}</i>
+                        {% endif %}
+                        <i class="mx-1 fa fa-heart"> {{ i.loves.count }}</i>
+                        <a href="{% url 'article-detail' i.pk %}#comments" class="text-muted">
+                          <i class="mx-1 fa fa-commenting-o"> {{ i.comments.count }}</i>
+                        </a>
+                      </small>
+                      <small class="text-muted text-right">
+                        {{ i.publication_date | naturaltime }}
+                      </small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <h1 class="small-caps text-center font-weight-bolder">No posts available yet!!!</h1>
+      {% endif %}
+
+    </div> <!-- row ends -->
+
+  </div>
+
+
+
+<!-- ********************************************************************* -->
+<!-- paste the recent category here!!! -->
+<!-- ********************************************************************* -->
+
+
+
+
+
+
+{% endblock %}

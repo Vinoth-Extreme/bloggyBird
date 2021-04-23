@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %} Login {% endblock %}
+
+{% block body %}
+
+{% if user.is_authenticated %}
+    {% if user.id == profile.user.id %}
+
+    <h1 class="text">Edit your profile</h1> <br><br>
+
+        <div class="form-group">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-secondary">Update</button>
+            </form>
+        </div>
+    {% else %}
+        <h4 class="small-caps font-weight-bolder errors">
+            It's not your profile that you can't edit...
+        </h4>
+    {% endif %}
+{% else %}
+    <h4 class="small-caps font-weight-bolder errors">
+        You aren't allowed here... Please try some other time...
+    </h4>
+{% endif %}
+
+{% endblock %}

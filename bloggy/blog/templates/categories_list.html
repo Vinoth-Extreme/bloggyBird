@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Bloggy bird! {% endblock %}
+
+{% block body %}
+    <ul class="text-center">
+        {% for cat in cats %}
+            <li>
+                <a href="#">{{ cat }}</a>
+                <a href="{% url 'edit-category' cat.id %}"><i class="fa fa-pencil"></i></a>
+                <a href="{% url 'delete-category' cat.id %}"><i class="fa fa-trash"></i></a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

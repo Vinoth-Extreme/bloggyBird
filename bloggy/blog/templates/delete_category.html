@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Delete category {{ category.name }} {% endblock %}
+
+{% block body %}
+
+    <h3 class="small-caps text-center">Delete category</h3>
+    <br>
+    <br>
+    <div class="form-group">
+        <p class="display-4">Delete: <b class="small-caps">{{ category.name }}</b></p>
+        <p>Are you sure to delete this category?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-close"></i> Delete category</button>
+    </form>
+    </div>
+
+{% endblock %}

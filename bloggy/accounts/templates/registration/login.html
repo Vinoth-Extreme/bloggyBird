@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %} Login {% endblock %}
+
+{% block body %}
+
+{% if not user.is_authenticated %}
+
+    <h1 class="text-center small-caps">Login</h1> <br><br>
+
+        <div class="container d-flex justify-content-center">
+            <div class="col-md-6">
+
+                <form method="post">
+                    {% csrf_token %}
+                  <div class="form-group">
+                    <label for="uname">Username</label>
+                    <input type="text" class="form-control" id="uname" name="username" aria-describedby="uhelp" placeholder="Enter your username">
+                    <small id="uhelp" class="form-text text-muted">Your username is case-sensitive...</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="Password">Password</label>
+                    <input type="password" class="form-control" id="Password" name="password" placeholder="Enter your Password">
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+
+
+            </div>
+        </div>
+{% else %}
+    <h4 class="small-caps font-weight-bolder errors">
+        You aren't allowed here... Please try some other time...
+    </h4>
+{% endif %}
+
+{% endblock %}

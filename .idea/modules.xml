@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Bloggybird.iml" filepath="$PROJECT_DIR$/.idea/Bloggybird.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../DepartmentLibrary/.idea/DepartmentLibrary.iml" filepath="$PROJECT_DIR$/../DepartmentLibrary/.idea/DepartmentLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../LMS/.idea/LMS.iml" filepath="$PROJECT_DIR$/../LMS/.idea/LMS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../djChannels/.idea/djChannels.iml" filepath="$PROJECT_DIR$/../djChannels/.idea/djChannels.iml" />
+    </modules>
+  </component>
+</project>

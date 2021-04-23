@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %} {{ curr_profile.user.username }}'s Profile {% endblock %}
+
+{% block body %}
+
+        {% if curr_profile %}
+            <div
+            style="
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+    ">
+    <img src="{{ curr_profile.profile_pic.url }}" width="200px" height="200px" class="rounded-circle text-center">
+    <h2 class="text-center text-light mt-4">
+        {{ curr_profile.user.username }}
+    {% if user.id == curr_profile.user.id %}
+        <a href="{% url 'edit-profile' user.profile.id %}"><i class="fa fa-pencil"></i></a>
+    {% endif %}
+    </h2>
+    </div>
+
+            <div class="container-fluid mt-4">
+            <div class="row justify-content-center align-items-center" style="height: 100vh;">
+                <div class="col"
+                     style="
+                        width:100%;
+                        height:100vh;
+                        background-image: url({% static 'img/caro_3.jpg' %});
+                        background-size: cover;
+                        background-repeat:no-repeat;
+                        background-position: center;
+                        background-attachment: fixed;
+                        filter: blur(10px);
+                ">
+                    <!-- inside of the column -->
+                </div>
+            </div>
+        </div>
+
+{% if user.id == curr_profile.user.id %}
+<a class="text-center" href="{% url 'edit-profile' user.profile.id %}">
+    <p class="small-caps font-weight-bolder">
+        Edit your profile
+    </p>
+</a>
+<p class="font-weight-bolder small-caps text-center">
+    <span class="badge badge-secondary p-3">
+        <i class="fa fa-calendar"></i>
+          Joined {{ curr_profile.user.date_joined | naturaltime }}
+    </span>
+</p>
+{% endif %}
+
+            <h1 class="text-center font-weight-bolder small-caps mt-4">
+                {{ curr_profile.user.username }}
+                <small style="font-size: 11px;">(Username)...</small>
+            </h1>
+
+            <h1 class="text-center font-weight-bolder small-caps mt-4">
+                {{ curr_profile.user.first_name }} {{ curr_profile.user.last_name }}
+                <small style="font-size: 11px;">(first and lastname)...</small>
+            </h1>
+            <p class="text-center mt-4 text-center" style="border: 1px solid black;padding:20px; width:fit-content;margin:0 auto;text-align:justify;">
+                <b>Bio</b> : <br> {{ curr_profile.bio }}
+            </p>
+
+            <h5 class="text-center small-caps mt-4 underline">Contact details</h5>
+
+            {% if curr_profile.website_url %}
+                <p class="text-center small-caps font-weight bolder">
+                    <i class="fa fa-globe"> {{ curr_profile.website_url }}</i>
+                </p>
+            {% endif %}
+
+            {% if curr_profile.facebook_url %}
+                <p class="text-center small-caps font-weight bolder">
+                    <i class="fa fa-facebook"> {{ curr_profile.facebook_url }}</i>
+                </p>
+            {% endif %}
+
+            {% if curr_profile.instagram_url %}
+                <p class="text-center small-caps font-weight bolder">
+                    <i class="fa fa-instagram"> {{ curr_profile.instagram_url }}</i>
+                </p>
+            {% endif %}
+
+            {% if curr_profile.twitter_url %}
+                <p class="text-center small-caps font-weight bolder">
+                    <i class="fa fa-twitter"> {{ curr_profile.twitter_url }}</i>
+                </p>
+            {% endif %}
+
+            {% if curr_profile.linkedin_url %}
+                <p class="text-center small-caps font-weight bolder">
+                    <i class="fa fa-linkedin"> {{ curr_profile.linkedin_url }}</i>
+                </p>
+            {% endif %}
+            <br><br><br>
+
+
+            <!-- My blog posts... -->
+            <div class="container-fluid mt-4">
+                {% if user.id == curr_profile.user.id %}
+            <h2 class="text-center small-caps font-weight-bolder underline">Your articles</h2>
+            <h5 class="text-center small-caps font-weight-bolder underline">[ {{ count }} article(s) ]</h5>
+                {% else %}
+            <h2 class="text-center small-caps font-weight-bolder underline">{{ curr_profile.user.username }}'s articles</h2>
+                {% endif %}
+
+
+                <div class="row justify-content-center">
+                  {% for i in articles %}
+                        {% if i.author.id == curr_profile.user.id %}
+                          <div class="col-md-5">
+
+                              <div class="card mb-3" style="max-width: fit-content;background-color: rgba(0, 0, 0, 0.13);" >
+                                <div class="row no-gutters">
+                                  <div class="col-md-4">
+                                    <img src="{{ i.header_image.url }}" class="card-img" alt="{{ i.title }}" height="100%">
+                                  </div>
+                                  <div class="col-md-8">
+                                    <div class="card-body">
+                                      <h7 class="card-title"><a href="{% url 'article-detail' i.pk %}">{{ i.title }}</a></h7><br>
+                                      <small>Category: <a href="{% url 'category-view' i.category %}" class="small-caps">{{ i.category }}</a></small>
+                                      <p class="card-text">{{ i.snippet |slice:":37" }}...</p>
+                                      <p class="card-text row justify-content-around">
+                                          <small class="text-muted">
+                                            {% if i.likes.count <= 999 %}
+                                            <i class="mx-1 fa fa-thumbs-up"> {{ i.likes.count }}</i>
+                                            {% elif i.likes.count > 999 %}
+                                            <i class="mx-1 fa fa-thumbs-up"> 1k </i>
+                                            {% elif i.likes.count > 1999 %}
+                                            <i class="mx-1 fa fa-thumbs-up"> 2k </i>
+                                            {% elif i.likes.count > 2999 %}
+                                            <i class="mx-1 fa fa-thumbs-up"> 3k </i>
+                                            {% elif i.likes.count > 3999 %}
+                                            <i class="mx-1 fa fa-thumbs-up"> 4k </i>
+                                            {% elif i.likes.count > 4999 %}
+                                            <i class="mx-1 fa fa-thumbs-up"> {{ i.likes.count }}</i>
+                                            {% endif %}
+                                            <i class="mx-1 fa fa-heart"> {{ i.loves.count }}</i>
+                                          </small>
+                                          <small class="text-muted text-right">
+                                            {{ i.publication_date | naturaltime }}
+                                          </small>
+                                        </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        {% endif %}
+                  {% endfor %}
+
+                </div> <!-- row ends -->
+
+              </div>
+
+
+
+
+
+
+
+
+
+
+
+        {% else %}
+            <h4 class="small-caps font-weight-bolder errors">
+                You aren't allowed here... No such profile found...
+            </h4>
+        {% endif %}
+
+
+{% endblock %}

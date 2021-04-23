@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %} Add blog post {% endblock %}
+
+{% block body %}
+
+
+{% if user.is_authenticated %}
+    {% if user.profile.id %}
+        <h1 class="text-center small-caps">Add a post</h1> <br><br>
+
+                <div class="container p-4" style="border-radius: 40px;">
+                    <div class="row justify-content-center">
+                        <div class="col-md-5">
+                            <form method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{ form.media }}
+                                {{ form.as_p }}
+                                <button class="btn btn-primary">Post my work!</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+    {% else %}
+        <span class="errors text-center">
+            <h4 class="small-caps font-weight-bolder">
+                Build your profile first in order to post your articles...
+            </h4><br>
+            <a class="font-weight-bolder" href="{% url 'build-profile' %}">Build your profile...</a>
+        </span>
+    {% endif %}
+{% else %}
+    <h4 class="small-caps font-weight-bolder errors">
+        You aren't allowed here... Please try some other time...
+    </h4>
+{% endif %}
+
+
+<script>
+    var uid = '{{ user.id }}';
+    document.getElementById('author').value = uid;
+</script>
+
+{% endblock %}
